@@ -33,94 +33,93 @@ vector<string> Main::ParseWords(const string& input) {
 }
 
 // Translates commands into a number <Make a much better algorithm here>
-int Main::translateCommandstoNumber(const vector<string>& commands) {
-    int asciiResult = 0; // Store the ASCII value
-    string firstCommand = commands[0]; //Store the first command
-
-    // Make the raw command processible
-    string lowercaseCommand = firstCommand;
-    transform(lowercaseCommand.begin(), lowercaseCommand.end(), lowercaseCommand.begin(), ::tolower);
-
-    // Add ASCII characters based on the string
-    for (int i = 0; i < lowercaseCommand.size(); i++) {
-        asciiResult += int(lowercaseCommand[i]);
-    }
-
-    return asciiResult;
+string Main::translateCommandstoNumber(const vector<string>& commands) {
+    string generatedResult = numberGenerator(commands); //Initiliaze the generatedResult with numberGenerator method.
+    return generatedResult; //Return the result
 }
 
-int numberGenerator(const std::string& target) {
+string Main::numberGenerator(const vector<string>& commands) {
     // Alphabet and their corresponding indexes
     std::unordered_map<char, int> alphabetIndex = {
-        {'A', 0}, {'B', 1}, {'C', 2}, {'D', 3}, {'E', 4}, {'F', 5}, {'G', 6}, {'H', 7},
-        {'I', 8}, {'J', 9}, {'K', 10}, {'L', 11}, {'M', 12}, {'N', 13}, {'O', 14}, {'P', 15},
-        {'Q', 16}, {'R', 17}, {'S', 18}, {'T', 19}, {'U', 20}, {'V', 21}, {'W', 22}, {'X', 23},
-        {'Y', 24}, {'Z', 25}
+        {'a', 1}, {'b', 2}, {'c', 3}, {'d', 4}, {'e', 5}, {'f', 6}, {'g', 7}, {'h', 8},
+        {'i', 9}, {'j', 10}, {'k', 11}, {'l', 12}, {'m', 13}, {'n', 14}, {'o', 15}, {'p', 16},
+        {'q', 17}, {'r', 18}, {'s', 19}, {'t', 20}, {'u', 21}, {'v', 22}, {'w', 23}, {'x', 24},
+        {'y', 25}, {'z', 26}
     };
     
     std::string indexNumbers;
     
+    string firstCommand = commands[0]; //Store the first command
+
     // Loop through each character in the input string
-    for (char ch : target) {
-        indexNumbers += std::to_string(alphabetIndex[ch]);
+    for (char ch : firstCommand) {
+        auto it = alphabetIndex.find(ch);
+        if (it != alphabetIndex.end()) {
+            indexNumbers += std::to_string(it->second);
+        }
     }
-    
-    // Convert the concatenated string of numbers to an integer
-    int generatedNumber = std::stoi(indexNumbers);
-    
-    return generatedNumber;
+
+    return indexNumbers;
 }
 
 // Determine the actions based on command and the word received. (uses Switch statements) <Make a much better algorithm here >
-bool Main::processCommandsWithSwitch(int translatedCommand) {
-    switch (translatedCommand) {
-    case 759: //"install" is recieved
-        //action_performed = "Installation";
-        return true;
-    case 986: //"uninstall" is recieved
-        //action_performed = "Uninstallation";
-        return true;
-    case 643: //"repair" is recieved
-        //action_performed = "Repair";
-        return true;
-    case 955: //"duplicate" is recieved
-        //action_performed = "Duplicate";
-        return true; 
-    case 432: //"sell" is recieved
-        //action_performed = "Sell";
-        return true;
-    case 751: //"develop" is recieved.
-        return true;
-    case 519: //"debug" is recieved.
-        return true;
-    case 448: //"test" is recieved.
-        return true;
-    case 864: //"automate" is recieved.
-        return true;
-    case 756: //"analyze" is recieved.
-        return true;
-    case 863: //"document" is recieved.
-        return true;
-    case 963: //"integrate" is recieved.
-        return true;
-    case 881: //"optimize" is recieved.
-        return true;
-    case 745: //"compile" is recieved.
-        return true;
-    case 653: //"deploy" is recieved.
-        return true;
-    case 854: //"refactor" is recieved.
-        return true;
-    case 868: //"simulate" is recieved.
-        return true;
-    case 988: //"visualize" is recieved.
-        return true;
-    case 849: //"maintain" is recieved.
-        return true;
-    case 630: //"backup" is recieved.
-        return true;
+bool Main::processCommandsWithSwitch(const std::string& translatedCommand) {
+    try {
+        long long commandNumber = std::stoll(translatedCommand);
+
+        switch (commandNumber) {
+        case 914192011212: // "install"
+            return true;
+        case 2114914192011212: // "uninstall"
+            return true;
+        case 185161918: // "repair"
+            return true;
+        case 431621218194: // "duplicate"
+            return true;
+        case 1951212: // "sell"
+            return true;
+        case 45225121516: // "develop"
+            return true;
+        case 452217: // "debug"
+            return true;
+        case 2051920: // "test"
+            return true;
+        case 1212015131205: // "automate"
+            return true;
+        case 11411225265: // "analyze"
+            return true;
+        case 4153211351420: // "document"
+            return true;
+        case 9142057181205: // "integrate"
+            return true;
+        case 1516209139265: // "optimize"
+            return true;
+        case 31513169125: // "compile"
+            return true;
+        case 4516121525: // "deploy"
+            return true;
+        case 185613201518: // "refactor"
+            return true;
+        case 1991321121205: // "simulate"
+            return true;
+        case 22919211129265: // "visualize"
+            return true;
+        case 131914201914: // "maintain"
+            return true;
+        case 213112116: // "backup"
+            return true;
+        default:
+            return false;
+        }
     }
-    return false;
+    catch (const std::invalid_argument& e) {
+        std::cerr << "Invalid argument: " << e.what() << std::endl;
+        return false;
+    }
+    catch (const std::out_of_range& e) {
+        std::cerr << "Out of range: " << e.what() << std::endl;
+        return false;
+    }
 }
 
 // Determine the actions based on command and the word received. (uses If-Else statements)
@@ -274,7 +273,7 @@ int Main::main() {
 
         //Process it with a Regular Switch statement and calculate the time.
         const auto before1 = clock::now(); //use time_point is better?
-        int translatedCommand = translateCommandstoNumber(words);
+        string translatedCommand = translateCommandstoNumber(words);
         action_Is_Succcessful = processCommandsWithSwitch(translatedCommand);
         const ms duration1 = clock::now() - before1;
         std::cout << "Processing with Regular Switch statements took " << duration1.count() << " milliseconds." << std::endl;

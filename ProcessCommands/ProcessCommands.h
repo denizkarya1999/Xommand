@@ -14,8 +14,9 @@ namespace ProcessCommands {
     public:
         static int main(); // Function to run the main logic.
         static vector<string> ParseWords(const string& input); // Detect every single word and put them in a string.
-        static int translateCommandstoNumber(const vector<string>& commands); // Translates commands into a number
-        static bool processCommandsWithSwitch(int translatedCommand); // Determine the actions based on command and the word received. (uses Switch statements)
+        static string translateCommandstoNumber(const vector<string>& commands); // Translates commands into a number
+        static string numberGenerator(const vector<string>& commands);
+        static bool processCommandsWithSwitch(const std::string& translatedCommand); // Determine the actions based on command and the word received. (uses Switch statements)
         static bool processCommandsWithIf(const vector<string>& commands); // Determine the actions based on command and the word received. (uses If-Else statements)
     };
 
