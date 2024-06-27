@@ -3,6 +3,7 @@
 #include <iostream>
 #include <regex>
 #include <chrono>
+#include <unordered_map>
 
 using namespace std;
 using namespace ProcessCommands;
@@ -46,6 +47,28 @@ int Main::translateCommandstoNumber(const vector<string>& commands) {
     }
 
     return asciiResult;
+}
+
+int numberGenerator(const std::string& target) {
+    // Alphabet and their corresponding indexes
+    std::unordered_map<char, int> alphabetIndex = {
+        {'A', 0}, {'B', 1}, {'C', 2}, {'D', 3}, {'E', 4}, {'F', 5}, {'G', 6}, {'H', 7},
+        {'I', 8}, {'J', 9}, {'K', 10}, {'L', 11}, {'M', 12}, {'N', 13}, {'O', 14}, {'P', 15},
+        {'Q', 16}, {'R', 17}, {'S', 18}, {'T', 19}, {'U', 20}, {'V', 21}, {'W', 22}, {'X', 23},
+        {'Y', 24}, {'Z', 25}
+    };
+    
+    std::string indexNumbers;
+    
+    // Loop through each character in the input string
+    for (char ch : target) {
+        indexNumbers += std::to_string(alphabetIndex[ch]);
+    }
+    
+    // Convert the concatenated string of numbers to an integer
+    int generatedNumber = std::stoi(indexNumbers);
+    
+    return generatedNumber;
 }
 
 // Determine the actions based on command and the word received. (uses Switch statements) <Make a much better algorithm here >
