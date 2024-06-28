@@ -4,6 +4,7 @@
 #include <regex>
 #include <chrono>
 #include <unordered_map>
+#include <functional>
 
 using namespace std;
 using namespace ProcessCommands;
@@ -12,61 +13,68 @@ string Main::userCommand; // Sets the user command.
 string Main::action_performed; // Sets the action performed.
 bool Main::action_Is_Succcessful; // A boolean expression to check whether the action was successful or not.
 
-// Define integer values for each state with upper case names
-enum State {
-    INSTALL = 1,
-    UNINSTALL = 2,
-    REPAIR = 3,
-    DUPLICATE = 4,
-    SELL = 5,
-    DEVELOP = 6,
-    DEBUG = 7,
-    TEST = 8,
-    AUTOMATE = 9,
-    ANALYZE = 10,
-    DOCUMENT = 11,
-    INTEGRATE = 12,
-    OPTIMIZE = 13,
-    COMPILE = 14,
-    DEPLOY = 15,
-    REFACTOR = 16,
-    SIMULATE = 17,
-    VISUALIZE = 18,
-    MAINTAIN = 19,
-    BACKUP = 20
-};
+constexpr unsigned int Main::hash(const char* s) {
+    unsigned int hash = 5381;
+    int c = 0;
 
-constexpr unsigned int Main::hash(const char* s, int off) {
-    return !s[off] ? 5381 : (hash(s, off + 1) * 33) ^ s[off];
+    while ((c = *s++)) {
+        hash = ((hash << 5) + hash) + c; // hash * 33 + c
+    }
+
+    return hash;
 }
 
-// Function to convert string to state integer
-int Main::getState(const std::string& state) {
-    switch (hash(state.c_str())) {
-    case hash("install", 0): return INSTALL;
-    case hash("uninstall", 0): return UNINSTALL;
-    case hash("repair", 0): return REPAIR;
-    case hash("duplicate", 0): return DUPLICATE;
-    case hash("sell", 0): return SELL;
-    case hash("develop", 0): return DEVELOP;
-    case hash("debug", 0): return DEBUG;
-    case hash("test", 0): return TEST;
-    case hash("automate", 0): return AUTOMATE;
-    case hash("analyze", 0): return ANALYZE;
-    case hash("document", 0): return DOCUMENT;
-    case hash("integrate", 0): return INTEGRATE;
-    case hash("optimize", 0): return OPTIMIZE;
-    case hash("compile", 0): return COMPILE;
-    case hash("deploy", 0): return DEPLOY;
-    case hash("refactor", 0): return REFACTOR;
-    case hash("simulate", 0): return SIMULATE;
-    case hash("visualize", 0): return VISUALIZE;
-    case hash("maintain", 0): return MAINTAIN;
-    case hash("backup", 0): return BACKUP;
-    default: return -1;
+// Determine the actions based on command and the word received. (uses Switch statements) 
+bool Main::useSwitch(const vector<string>& commands) {
+    //Assign the first index of the command.
+    string command = commands[0];
+
+    // Find the switch based on hash.
+    switch (hash(command.c_str())) {
+    case hash("install"): 
+        return true;
+    case hash("uninstall"): 
+        return true;
+    case hash("repair"):
+        return true;
+    case hash("duplicate"): 
+        return true;
+    case hash("sell"):
+        return true;
+    case hash("develop"):
+        return true;
+    case hash("debug"):
+        return true;
+    case hash("test"):
+        return true;
+    case hash("automate"):
+        return true;
+    case hash("analyze"): 
+        return true;
+    case hash("document"): 
+        return true;
+    case hash("integrate"):
+        return true;
+    case hash("optimize"):
+        return true;
+    case hash("compile"):
+        return true;
+    case hash("deploy"):
+        return true;
+    case hash("refactor"):
+        return true;
+    case hash("simulate"):
+        return true;
+    case hash("visualize"):
+        return true;
+    case hash("maintain"): 
+        return true;
+    case hash("backup"): 
+        return true;
+    default: 
+        return false;
     }
 }
-
 
 // Detect every single word and put them in a string.
 vector<string> Main::ParseWords(const string& input) {
@@ -86,60 +94,6 @@ vector<string> Main::ParseWords(const string& input) {
 
     // Return the vector.
     return words;
-}
-
-// Determine the actions based on command and the word received. (uses Switch statements) <Make a much better algorithm here >
-bool Main::processCommandsWithSwitch(const vector<string>& commands) {
-    // Get the first command.
-    string command = commands[0];
-
-    // Get the equivalent state from the command.
-    int state = getState(command);
-
-    switch (state) {
-    case INSTALL:
-        return true;
-    case UNINSTALL:
-        return true;
-    case REPAIR:
-        return true;
-    case DUPLICATE:
-        return true;
-    case SELL:
-        return true;
-    case DEVELOP:
-        return true;
-    case DEBUG:
-        return true;
-    case TEST:
-        return true;;
-    case AUTOMATE:
-        return true;
-    case ANALYZE:
-        return true;;
-    case DOCUMENT:
-        return true;;
-    case INTEGRATE:
-        return true;
-    case OPTIMIZE:
-        return true;
-    case COMPILE:
-        return true;
-    case DEPLOY:
-        return true;
-    case REFACTOR:
-        return true;
-    case SIMULATE:
-        return true;
-    case VISUALIZE:
-        return true;
-    case MAINTAIN:
-        return true;;
-    case BACKUP:
-        return true;
-    }
-
-    return false;
 }
 
 // Determine the actions based on command and the word received. (uses If-Else statements)
@@ -292,16 +246,16 @@ int Main::main() {
         std::cout << "Processing with If-Else statement took " << duration2.count() << " milliseconds." << std::endl;
 
         //Process it with a Regular Switch statement and calculate the time.
-        //const auto before1 = clock::now(); //use time_point is better?
-        //action_Is_Succcessful = processCommandsWithSwitch(words);
-        //const ms duration1 = clock::now() - before1;
-        //std::cout << "Processing with Regular Switch statements took " << duration1.count() << " milliseconds." << std::endl;
+        const auto before1 = clock::now(); //use time_point is better?
+        action_Is_Succcessful = useSwitch(words);
+        const ms duration1 = clock::now() - before1;
+        std::cout << "Processing with Regular Switch statements took " << duration1.count() << " milliseconds." << std::endl;
 
         //Process it with a Fastest Switch statement and calculate the time.
-        const auto before3 = clock::now(); //use time_point is better?
-        action_Is_Succcessful = processCommandsWithSwitch(words);
-        const ms duration3 = clock::now() - before3;
-        std::cout << "Processing with Fastest Switch statements as possible took " << duration3.count() << " milliseconds." << std::endl;
+        //const auto before3 = clock::now(); //use time_point is better?
+        //action_Is_Succcessful = useSwitch(words);
+        //const ms duration3 = clock::now() - before3;
+        //std::cout << "Processing with Fastest Switch statements as possible took " << duration3.count() << " milliseconds." << std::endl;
 
         //std::cout << "" << endl;
 
