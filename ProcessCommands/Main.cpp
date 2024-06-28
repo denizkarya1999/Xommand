@@ -27,7 +27,7 @@ constexpr unsigned int Main::hash(const char* s) {
 // Determine the actions based on command and the word received. (uses Switch statements) 
 bool Main::useSwitch(const vector<string>& commands) {
     //Assign the first index of the command.
-    string command = commands[0];
+    const string& command = commands[0];
 
     // Find the switch based on hash.
     switch (hash(command.c_str())) {
