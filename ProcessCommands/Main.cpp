@@ -12,6 +12,62 @@ string Main::userCommand; // Sets the user command.
 string Main::action_performed; // Sets the action performed.
 bool Main::action_Is_Succcessful; // A boolean expression to check whether the action was successful or not.
 
+// Define integer values for each state with upper case names
+enum State {
+    INSTALL = 1,
+    UNINSTALL = 2,
+    REPAIR = 3,
+    DUPLICATE = 4,
+    SELL = 5,
+    DEVELOP = 6,
+    DEBUG = 7,
+    TEST = 8,
+    AUTOMATE = 9,
+    ANALYZE = 10,
+    DOCUMENT = 11,
+    INTEGRATE = 12,
+    OPTIMIZE = 13,
+    COMPILE = 14,
+    DEPLOY = 15,
+    REFACTOR = 16,
+    SIMULATE = 17,
+    VISUALIZE = 18,
+    MAINTAIN = 19,
+    BACKUP = 20
+};
+
+constexpr unsigned int Main::hash(const char* s, int off) {
+    return !s[off] ? 5381 : (hash(s, off + 1) * 33) ^ s[off];
+}
+
+// Function to convert string to state integer
+int Main::getState(const std::string& state) {
+    switch (hash(state.c_str())) {
+    case hash("install", 0): return INSTALL;
+    case hash("uninstall", 0): return UNINSTALL;
+    case hash("repair", 0): return REPAIR;
+    case hash("duplicate", 0): return DUPLICATE;
+    case hash("sell", 0): return SELL;
+    case hash("develop", 0): return DEVELOP;
+    case hash("debug", 0): return DEBUG;
+    case hash("test", 0): return TEST;
+    case hash("automate", 0): return AUTOMATE;
+    case hash("analyze", 0): return ANALYZE;
+    case hash("document", 0): return DOCUMENT;
+    case hash("integrate", 0): return INTEGRATE;
+    case hash("optimize", 0): return OPTIMIZE;
+    case hash("compile", 0): return COMPILE;
+    case hash("deploy", 0): return DEPLOY;
+    case hash("refactor", 0): return REFACTOR;
+    case hash("simulate", 0): return SIMULATE;
+    case hash("visualize", 0): return VISUALIZE;
+    case hash("maintain", 0): return MAINTAIN;
+    case hash("backup", 0): return BACKUP;
+    default: return -1;
+    }
+}
+
+
 // Detect every single word and put them in a string.
 vector<string> Main::ParseWords(const string& input) {
     // Use a regular expression to find words.
@@ -32,94 +88,58 @@ vector<string> Main::ParseWords(const string& input) {
     return words;
 }
 
-// Translates commands into a number <Make a much better algorithm here>
-string Main::translateCommandstoNumber(const vector<string>& commands) {
-    string generatedResult = numberGenerator(commands); //Initiliaze the generatedResult with numberGenerator method.
-    return generatedResult; //Return the result
-}
-
-string Main::numberGenerator(const vector<string>& commands) {
-    // Alphabet and their corresponding indexes
-    std::unordered_map<char, int> alphabetIndex = {
-        {'a', 1}, {'b', 2}, {'c', 3}, {'d', 4}, {'e', 5}, {'f', 6}, {'g', 7}, {'h', 8},
-        {'i', 9}, {'j', 10}, {'k', 11}, {'l', 12}, {'m', 13}, {'n', 14}, {'o', 15}, {'p', 16},
-        {'q', 17}, {'r', 18}, {'s', 19}, {'t', 20}, {'u', 21}, {'v', 22}, {'w', 23}, {'x', 24},
-        {'y', 25}, {'z', 26}
-    };
-    
-    std::string indexNumbers;
-    
-    string firstCommand = commands[0]; //Store the first command
-
-    // Loop through each character in the input string
-    for (char ch : firstCommand) {
-        auto it = alphabetIndex.find(ch);
-        if (it != alphabetIndex.end()) {
-            indexNumbers += std::to_string(it->second);
-        }
-    }
-
-    return indexNumbers;
-}
-
 // Determine the actions based on command and the word received. (uses Switch statements) <Make a much better algorithm here >
-bool Main::processCommandsWithSwitch(const std::string& translatedCommand) {
-    try {
-        long long commandNumber = std::stoll(translatedCommand);
+bool Main::processCommandsWithSwitch(const vector<string>& commands) {
+    // Get the first command.
+    string command = commands[0];
 
-        switch (commandNumber) {
-        case 914192011212: // "install"
-            return true;
-        case 2114914192011212: // "uninstall"
-            return true;
-        case 185161918: // "repair"
-            return true;
-        case 431621218194: // "duplicate"
-            return true;
-        case 1951212: // "sell"
-            return true;
-        case 45225121516: // "develop"
-            return true;
-        case 452217: // "debug"
-            return true;
-        case 2051920: // "test"
-            return true;
-        case 1212015131205: // "automate"
-            return true;
-        case 11411225265: // "analyze"
-            return true;
-        case 4153211351420: // "document"
-            return true;
-        case 9142057181205: // "integrate"
-            return true;
-        case 1516209139265: // "optimize"
-            return true;
-        case 31513169125: // "compile"
-            return true;
-        case 4516121525: // "deploy"
-            return true;
-        case 185613201518: // "refactor"
-            return true;
-        case 1991321121205: // "simulate"
-            return true;
-        case 22919211129265: // "visualize"
-            return true;
-        case 131914201914: // "maintain"
-            return true;
-        case 213112116: // "backup"
-            return true;
-        default:
-            return false;
-        }
+    // Get the equivalent state from the command.
+    int state = getState(command);
+
+    switch (state) {
+    case INSTALL:
+        return true;
+    case UNINSTALL:
+        return true;
+    case REPAIR:
+        return true;
+    case DUPLICATE:
+        return true;
+    case SELL:
+        return true;
+    case DEVELOP:
+        return true;
+    case DEBUG:
+        return true;
+    case TEST:
+        return true;;
+    case AUTOMATE:
+        return true;
+    case ANALYZE:
+        return true;;
+    case DOCUMENT:
+        return true;;
+    case INTEGRATE:
+        return true;
+    case OPTIMIZE:
+        return true;
+    case COMPILE:
+        return true;
+    case DEPLOY:
+        return true;
+    case REFACTOR:
+        return true;
+    case SIMULATE:
+        return true;
+    case VISUALIZE:
+        return true;
+    case MAINTAIN:
+        return true;;
+    case BACKUP:
+        return true;
     }
-    catch (const std::invalid_argument& e) {
-        std::cerr << "Invalid argument: " << e.what() << std::endl;
-        return false;
-    }
-    catch (const std::out_of_range& e) {
-        std::cerr << "Out of range: " << e.what() << std::endl;
-        return false;
-    }
+
+    return false;
 }
 
 // Determine the actions based on command and the word received. (uses If-Else statements)
@@ -272,15 +292,14 @@ int Main::main() {
         std::cout << "Processing with If-Else statement took " << duration2.count() << " milliseconds." << std::endl;
 
         //Process it with a Regular Switch statement and calculate the time.
-        const auto before1 = clock::now(); //use time_point is better?
-        string translatedCommand = translateCommandstoNumber(words);
-        action_Is_Succcessful = processCommandsWithSwitch(translatedCommand);
-        const ms duration1 = clock::now() - before1;
-        std::cout << "Processing with Regular Switch statements took " << duration1.count() << " milliseconds." << std::endl;
+        //const auto before1 = clock::now(); //use time_point is better?
+        //action_Is_Succcessful = processCommandsWithSwitch(words);
+        //const ms duration1 = clock::now() - before1;
+        //std::cout << "Processing with Regular Switch statements took " << duration1.count() << " milliseconds." << std::endl;
 
         //Process it with a Fastest Switch statement and calculate the time.
         const auto before3 = clock::now(); //use time_point is better?
-        action_Is_Succcessful = processCommandsWithSwitch(translatedCommand);
+        action_Is_Succcessful = processCommandsWithSwitch(words);
         const ms duration3 = clock::now() - before3;
         std::cout << "Processing with Fastest Switch statements as possible took " << duration3.count() << " milliseconds." << std::endl;
 
